@@ -6,12 +6,14 @@ type PageProps = {
   params: { id: string };
 };
 
-export default async function ProductPage({ params }: PageProps) {
+export default async function Page({ params }: PageProps) {
   const supabase = await createClient();
+
+  const { id } = params;
   const { data: product, error } = await supabase
     .from("products")
     .select("*")
-    .eq("id", params.id)
+    .eq("id", id)
     .single();
 
   if (error) {
@@ -26,13 +28,7 @@ export default async function ProductPage({ params }: PageProps) {
         <ol className="flex items-center space-x-2 text-sm text-gray-500">
           <li>
             <Link href="/" className="hover:text-gray-900">
-              Home
-            </Link>
-          </li>
-          <li>/</li>
-          <li>
-            <Link href="/products" className="hover:text-gray-900">
-              Products
+              Productos
             </Link>
           </li>
           <li>/</li>
