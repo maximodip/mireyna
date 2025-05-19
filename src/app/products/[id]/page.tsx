@@ -2,12 +2,11 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function ProductPage({
-  params,
-}: {
+type PageProps = {
   params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}) {
+};
+
+export default async function ProductPage({ params }: PageProps) {
   const supabase = await createClient();
   const { data: product, error } = await supabase
     .from("products")
