@@ -5,9 +5,8 @@ import { createClient } from "@/utils/supabase/server";
 export default async function ProductPage({
   params,
 }: {
-  params: {
-    id: string;
-  };
+  params: { id: string };
+  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const supabase = await createClient();
   const { data: product, error } = await supabase
