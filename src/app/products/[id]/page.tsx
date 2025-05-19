@@ -2,27 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { createClient } from "@/utils/supabase/server";
 
-// const relatedProducts = [
-//   {
-//     id: "2",
-//     name: "Wireless Earbuds",
-//     price: 3200.0,
-//     image: "/images/earbuds.jpg",
-//   },
-//   {
-//     id: "3",
-//     name: "Bluetooth Speaker",
-//     price: 2800.0,
-//     image: "/images/speaker.jpg",
-//   },
-//   {
-//     id: "4",
-//     name: "Smart Watch",
-//     price: 5500.0,
-//     image: "/images/watch.jpg",
-//   },
-// ];
-
 export default async function ProductPage({
   params,
 }: {
