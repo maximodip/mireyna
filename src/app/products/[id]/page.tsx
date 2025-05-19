@@ -7,9 +7,8 @@ type PageProps = {
 };
 
 export default async function Page({ params }: PageProps) {
+  const { id } = await Promise.resolve(params);
   const supabase = await createClient();
-
-  const { id } = params;
   const { data: product, error } = await supabase
     .from("products")
     .select("*")
