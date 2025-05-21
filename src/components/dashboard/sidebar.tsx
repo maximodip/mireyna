@@ -10,6 +10,7 @@ import {
   Users,
   Settings,
   LogOut,
+  StoreIcon,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { signOut } from "@/app/actions/auth";
@@ -72,6 +73,10 @@ export default function DashboardSidebar() {
           </Link>
         ))}
       </div>
+      <Link href="/" className="flex items-center gap-x-2 p-4 mt-auto border-t">
+        <StoreIcon className="h-4 w-4 mr-2" />
+        Volver a la Tienda
+      </Link>
       <div className="p-4 mt-auto border-t">
         <form action={signOut}>
           <Button

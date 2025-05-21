@@ -10,7 +10,7 @@ export default async function Home() {
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center">
+    <section className="flex mt-32 flex-col items-center justify-center">
       <div className="w-full max-w-md p-8 space-y-8 bg-card rounded-lg shadow-lg">
         <div className="text-center">
           <h1 className="text-2xl font-bold">Panel de administración</h1>
@@ -20,6 +20,6 @@ export default async function Home() {
         </div>
         <LoginForm />
       </div>
-    </div>
+    </section>
   );
 }

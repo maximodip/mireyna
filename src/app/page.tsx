@@ -1,118 +1,124 @@
+"use client";
+
+import { useState } from "react";
 import { getProducts } from "@/app/actions/products";
-import { ShoppingCart } from "lucide-react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { ShoppingCart } from "lucide-react";
+import { useCart } from "@/contexts/cart-context";
+import { SiteHeader } from "@/components/site-header";
+import { useEffect } from "react";
+import Image from "next/image";
 
-export default async function Home() {
-  const products = await getProducts();
+type Product = {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  image: string;
+  stock: number;
+};
 
-  return (
-    <div className="flex flex-col min-h-screen">
-      <main className="flex-1">
-        <section className="py-12 bg-gray-50">
-          <div className="container px-4 mx-auto">
-            <h1 className="mb-4 text-4xl font-bold text-center">
-              Bienvenido a Mi Reyna
-            </h1>
-            <p className="max-w-2xl mx-auto mb-8 text-center text-gray-600">
-              Descubre nuestra colección de productos premium diseñados para tu
-              estilo de vida.
-            </p>
-          </div>
-        </section>
+export default function Home() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const { addItem } = useCart();
 
-        <section className="py-12">
-          <div className="container px-4 mx-auto">
-            <h2 className="mb-8 text-2xl font-bold">Productos</h2>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {products.map((product) => (
-                <Link
-                  href={`/products/${product.id}`}
-                  key={product.id}
-                  className="cursor-pointer overflow-hidden transition-shadow duration-300 bg-white rounded-lg shadow-md hover:shadow-lg"
-                >
-                  <div className="relative h-64">
-                    <Image
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
-                  <div className="p-4">
-                    <h3 className="mb-2 text-lg font-semibold">
-                      {product.name}
-                    </h3>
-                    <p className="mb-4 text-sm text-gray-600">
-                      {product.description.length > 100
-                        ? product.description.slice(0, 100) + "..."
-                        : product.description}
-                    </p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-xl font-bold">
-                        ${product.price.toFixed(2)}
-                      </span>
-                      <Button size="sm">
-                        <ShoppingCart className="w-4 h-4 mr-2" />
-                        Añadir al Carrito
-                      </Button>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </section>
-      </main>
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const data = await getProducts();
+        setProducts(data || []);
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-      <footer className="py-8">
-        <div className="container px-4 mx-auto">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-            <div>
-              <h3 className="mb-4 text-lg font-semibold">MiReyna</h3>
-              <p className="text-gray-400">
-                Tu tienda de confianza para productos premium.
-              </p>
-            </div>
-            <div>
-              <h3 className="mb-4 text-lg font-semibold">Enlaces Rápidos</h3>
-              <ul className="space-y-2 text-gray-400">
-                <li>
-                  <Link href="/">Inicio</Link>
-                </li>
-                <li>
-                  <Link href="/products">Productos</Link>
-                </li>
-                <li>
-                  <Link href="/categories">Categorías</Link>
-                </li>
-                <li>
-                  <Link href="/about">Nosotros</Link>
-                </li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-lg font-semibold">Contacto</h3>
-              <address className="not-italic text-gray-400">
-                Calle Comercio 123
-                <br />
-                Ciudad Retail, CR 10001
-                <br />
-                contacto@mireyna.com
-                <br />
-                (555) 123-4567
-              </address>
-            </div>
-          </div>
-          <div className="pt-8 mt-8 text-center text-gray-400 border-t border-gray-800">
-            <p>
-              &copy; {new Date().getFullYear()} MiReyna. Todos los derechos
-              reservados.
-            </p>
+    fetchProducts();
+  }, []);
+
+  if (loading) {
+    return (
+      <>
+        <SiteHeader />
+        <div className="container mx-auto py-12 px-6">
+          <div className="flex justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
           </div>
         </div>
-      </footer>
-    </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <SiteHeader />
+      <div className="container mx-auto py-12 px-6">
+        <div className="flex items-center justify-between mb-8">
+          <h1 className="text-3xl font-bold">Nuestros Productos</h1>
+        </div>
+
+        {products.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">
+              No hay productos disponibles en este momento.
+            </p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {products.map((product) => (
+              <Card key={product.id} className="overflow-hidden flex flex-col">
+                <div className="aspect-square relative bg-muted">
+                  {product.image ? (
+                    <Image
+                      fill
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      className="object-cover w-full h-full"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-full text-muted-foreground">
+                      No imagen disponible
+                    </div>
+                  )}
+                </div>
+                <CardHeader>
+                  <CardTitle>{product.name}</CardTitle>
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <p className="text-muted-foreground line-clamp-2">
+                    {product.description}
+                  </p>
+                  <p className="text-xl font-bold mt-2">{product.price}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {product.stock > 0
+                      ? `${product.stock} en stock`
+                      : "Sin stock"}
+                  </p>
+                </CardContent>
+                <CardFooter>
+                  <Button
+                    className="w-full"
+                    disabled={product.stock <= 0}
+                    onClick={() => addItem(product)}
+                  >
+                    <ShoppingCart className="h-4 w-4 mr-2" />
+                    {product.stock > 0 ? "Agregar al carrito" : "Sin stock"}
+                  </Button>
+                </CardFooter>
+              </Card>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }

@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/table";
 import { Plus, Pencil, ArrowLeft } from "lucide-react";
 import Image from "next/image";
+import { formatPrice } from "@/lib/utils";
 
 export default async function ProductsPage() {
   const supabase = await createSupabaseClient();
@@ -86,7 +87,7 @@ export default async function ProductsPage() {
                   <TableCell className="max-w-[300px] truncate">
                     {product.description}
                   </TableCell>
-                  <TableCell>{product.price}</TableCell>
+                  <TableCell>{formatPrice(product.price)}</TableCell>
                   <TableCell>{product.stock}</TableCell>
                   <TableCell className="text-right">
                     {new Date(product.created_at).toLocaleDateString()}
