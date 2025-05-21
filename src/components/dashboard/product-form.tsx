@@ -201,9 +201,12 @@ export default function ProductForm({
       // Redirect to products page
       router.push("/dashboard/products");
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Error", {
-        description: error.message || "Hubo un error al guardar tu producto.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Hubo un error al guardar tu producto.",
       });
     } finally {
       setSubmitting(false);
@@ -228,9 +231,12 @@ export default function ProductForm({
 
       router.push("/dashboard/products");
       router.refresh();
-    } catch (error: any) {
+    } catch (error: unknown) {
       toast.error("Error", {
-        description: error.message || "Hubo un error al eliminar tu producto.",
+        description:
+          error instanceof Error
+            ? error.message
+            : "Hubo un error al eliminar tu producto.",
       });
     } finally {
       setSubmitting(false);
