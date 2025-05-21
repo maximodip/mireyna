@@ -1,17 +1,11 @@
-import { createClient } from "@/utils/supabase/server";
+import { getProducts } from "@/app/actions/products";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export default async function Home() {
-  const supabase = await createClient();
-  const { data: products, error } = await supabase.from("products").select("*");
-
-  if (error) {
-    console.error("Supabase error:", error);
-    return <div>Error loading products: {error.message}</div>;
-  }
+  const products = await getProducts();
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -19,7 +13,7 @@ export default async function Home() {
         <section className="py-12 bg-gray-50">
           <div className="container px-4 mx-auto">
             <h1 className="mb-4 text-4xl font-bold text-center">
-              Bienvenido a TiendaYa
+              Bienvenido a Mi Reyna
             </h1>
             <p className="max-w-2xl mx-auto mb-8 text-center text-gray-600">
               Descubre nuestra colección de productos premium diseñados para tu
@@ -76,7 +70,7 @@ export default async function Home() {
         <div className="container px-4 mx-auto">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
             <div>
-              <h3 className="mb-4 text-lg font-semibold">TiendaYa</h3>
+              <h3 className="mb-4 text-lg font-semibold">MiReyna</h3>
               <p className="text-gray-400">
                 Tu tienda de confianza para productos premium.
               </p>
@@ -105,7 +99,7 @@ export default async function Home() {
                 <br />
                 Ciudad Retail, CR 10001
                 <br />
-                contacto@tiendaya.com
+                contacto@mireyna.com
                 <br />
                 (555) 123-4567
               </address>
@@ -113,7 +107,7 @@ export default async function Home() {
           </div>
           <div className="pt-8 mt-8 text-center text-gray-400 border-t border-gray-800">
             <p>
-              &copy; {new Date().getFullYear()} TiendaYa. Todos los derechos
+              &copy; {new Date().getFullYear()} MiReyna. Todos los derechos
               reservados.
             </p>
           </div>

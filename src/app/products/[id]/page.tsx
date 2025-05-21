@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { createClient } from "@/utils/supabase/server";
+import { createSupabaseClient } from "@/utils/supabase/server";
 
 type PageProps = {
   params: { id: string };
@@ -8,7 +8,7 @@ type PageProps = {
 
 export default async function Page({ params }: PageProps) {
   const { id } = await Promise.resolve(params);
-  const supabase = await createClient();
+  const supabase = await createSupabaseClient();
   const { data: product, error } = await supabase
     .from("products")
     .select("*")
