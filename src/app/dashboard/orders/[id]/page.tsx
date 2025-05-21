@@ -10,11 +10,13 @@ import { getPaymentStatus } from "@/app/actions/payment";
 import Image from "next/image";
 import { CartItem } from "@/contexts/cart-context";
 
-export default async function OrderDetailsPage({
-  params,
-}: {
+// Add this type definition
+type Props = {
   params: { id: string };
-}) {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default async function OrderDetailsPage({ params }: Props) {
   const supabase = await createSupabaseClient();
 
   // Get the order
