@@ -50,8 +50,29 @@ export default function Home() {
       <>
         <SiteHeader />
         <div className="container mx-auto py-12 px-6">
-          <div className="flex justify-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-3xl font-bold">Nuestros Productos</h1>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {[...Array(10)].map((_, index) => (
+              <Card key={index} className="overflow-hidden flex flex-col">
+                <div className="aspect-square relative bg-muted animate-pulse" />
+                <CardHeader>
+                  <div className="h-6 w-3/4 bg-muted animate-pulse rounded-md" />
+                </CardHeader>
+                <CardContent className="flex-1">
+                  <div className="space-y-2">
+                    <div className="h-4 w-full bg-muted animate-pulse rounded-md" />
+                    <div className="h-4 w-2/3 bg-muted animate-pulse rounded-md" />
+                    <div className="h-6 w-1/4 bg-muted animate-pulse rounded-md mt-2" />
+                    <div className="h-4 w-1/3 bg-muted animate-pulse rounded-md mt-1" />
+                  </div>
+                </CardContent>
+                <CardFooter>
+                  <div className="h-10 w-full bg-muted animate-pulse rounded-md" />
+                </CardFooter>
+              </Card>
+            ))}
           </div>
         </div>
       </>

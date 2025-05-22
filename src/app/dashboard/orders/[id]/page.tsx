@@ -34,6 +34,8 @@ export default async function OrderDetailsPage({
     paymentStatus = await getPaymentStatus(params.id);
   } catch (error) {
     console.error("Error checking payment status:", error);
+    // Set a default status to prevent undefined errors
+    paymentStatus = { status: order.status };
   }
 
   function getStatusColor(status: string) {

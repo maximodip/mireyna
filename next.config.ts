@@ -11,9 +11,7 @@ const nextConfig: NextConfig = {
     MERCADOPAGO_ACCESS_TOKEN: process.env.MERCADOPAGO_ACCESS_TOKEN,
     NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
   },
-  url: {
-    origin: process.env.NEXT_PUBLIC_SITE_URL,
-  },
+  allowedDevOrigins: ["http://localhost:3000"],
 };
 
 export default nextConfig;

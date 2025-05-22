@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createSupabaseClient } from "@/utils/supabase/server";
-import { formatPrice } from "@/lib/utils";
+import { formatDate, formatPrice, formatTime } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -47,20 +47,21 @@ export default async function OrdersPage() {
   return (
     <div className="p-6 space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Orders</h1>
+        <h1 className="text-3xl font-bold">Pedidos</h1>
       </div>
 
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Order ID</TableHead>
-              <TableHead>Date</TableHead>
-              <TableHead>Customer</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead>ID</TableHead>
+              <TableHead>Fecha</TableHead>
+              <TableHead>Hora</TableHead>
+              <TableHead>Cliente</TableHead>
+              <TableHead>Estado</TableHead>
               <TableHead>Items</TableHead>
               <TableHead className="text-right">Total</TableHead>
-              <TableHead className="w-[80px]">Actions</TableHead>
+              <TableHead className="w-[80px] text-center">Detalles</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -70,9 +71,8 @@ export default async function OrdersPage() {
                   <TableCell className="font-mono text-xs">
                     {order.id.substring(0, 8)}...
                   </TableCell>
-                  <TableCell>
-                    {new Date(order.created_at).toLocaleString()}
-                  </TableCell>
+                  <TableCell>{formatDate(order.created_at)}</TableCell>
+                  <TableCell>{formatTime(order.created_at)}</TableCell>
                   <TableCell>{order.customer_email || "Guest"}</TableCell>
                   <TableCell>
                     <Badge className={getStatusColor(order.status)}>
@@ -87,7 +87,12 @@ export default async function OrdersPage() {
                     {formatPrice(order.total_amount)}
                   </TableCell>
                   <TableCell>
-                    <Button variant="ghost" size="sm" asChild>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      asChild
+                      className="w-full"
+                    >
                       <Link href={`/dashboard/orders/${order.id}`}>
                         <Eye className="h-4 w-4" />
                         <span className="sr-only">View</span>

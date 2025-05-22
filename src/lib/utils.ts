@@ -12,3 +12,19 @@ export function formatPrice(price: number) {
     minimumFractionDigits: 2,
   }).format(price);
 }
+
+export function formatDate(date: string) {
+  return new Date(date).toLocaleString("es-AR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+export function formatTime(date: string) {
+  return new Date(date).toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+}
