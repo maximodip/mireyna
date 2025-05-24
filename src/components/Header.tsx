@@ -1,6 +1,5 @@
-import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { CartDropdown } from "./cart/cart-dropdown";
 
 export function Header() {
   return (
@@ -27,10 +26,7 @@ export function Header() {
           </Link>
         </nav>
         <div className="flex items-center space-x-4">
-          <Button variant="outline" size="icon">
-            <ShoppingCart className="w-5 h-5" />
-            <span className="sr-only">Carrito de Compras</span>
-          </Button>
+          <CartDropdown />
         </div>
       </div>
     </header>

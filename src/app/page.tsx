@@ -12,9 +12,9 @@ import {
 } from "@/components/ui/card";
 import { ShoppingCart } from "lucide-react";
 import { useCart } from "@/contexts/cart-context";
-import { SiteHeader } from "@/components/site-header";
 import { useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Product = {
   id: string;
@@ -48,7 +48,6 @@ export default function Home() {
   if (loading) {
     return (
       <>
-        <SiteHeader />
         <div className="container mx-auto py-12 px-6">
           <div className="flex items-center justify-between mb-8">
             <h1 className="text-3xl font-bold">Nuestros Productos</h1>
@@ -81,7 +80,6 @@ export default function Home() {
 
   return (
     <>
-      <SiteHeader />
       <div className="container mx-auto py-12 px-6">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold">Nuestros Productos</h1>
@@ -97,20 +95,22 @@ export default function Home() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {products.map((product) => (
               <Card key={product.id} className="overflow-hidden flex flex-col">
-                <div className="aspect-square relative bg-muted">
-                  {product.image ? (
-                    <Image
-                      fill
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
-                      className="object-cover w-full h-full"
-                    />
-                  ) : (
-                    <div className="flex items-center justify-center h-full text-muted-foreground">
-                      No imagen disponible
-                    </div>
-                  )}
-                </div>
+                <Link href={`/products/${product.id}`}>
+                  <div className="aspect-square relative bg-muted">
+                    {product.image ? (
+                      <Image
+                        fill
+                        src={product.image || "/placeholder.svg"}
+                        alt={product.name}
+                        className="object-cover w-full h-full"
+                      />
+                    ) : (
+                      <div className="flex items-center justify-center h-full text-muted-foreground">
+                        No imagen disponible
+                      </div>
+                    )}
+                  </div>
+                </Link>
                 <CardHeader>
                   <CardTitle>{product.name}</CardTitle>
                 </CardHeader>
